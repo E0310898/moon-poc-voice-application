@@ -6,7 +6,7 @@ import './styleV2.scss';
 import {
   ApplicationMetadata,
   AsyncScheduler,
-  Attendee,
+  //Attendee,
   AudioInputDevice,
   AudioProfile,
   AudioVideoFacade,
@@ -50,11 +50,11 @@ import {
   RemovableAnalyserNode,
   ServerSideNetworkAdaption,
   SimulcastLayers,
-  Transcript,
-  TranscriptEvent,
-  TranscriptionStatus,
-  TranscriptionStatusType,
-  TranscriptItemType,
+  //Transcript,
+  //TranscriptEvent,
+  //TranscriptionStatus,
+  //TranscriptionStatusType,
+  //TranscriptItemType,
   TranscriptResult,
   Versioning,
   VideoDownlinkObserver,
@@ -192,10 +192,11 @@ const SimulcastLayerMapping = {
   [SimulcastLayers.High]: 'High',
 };
 
+/*
 const LANGUAGES_NO_WORD_SEPARATOR = new Set([
   'ja-JP',
   'zh-CN',
-]);
+]);*/
 
 interface Toggle {
   name: string;
@@ -203,6 +204,7 @@ interface Toggle {
   action: () => void;
 }
 
+/*
 interface TranscriptSegment {
   contentSpan: HTMLSpanElement,
   attendee: Attendee;
@@ -221,9 +223,10 @@ interface TranscriptionStreamParams {
   languageOptions?: string;
   preferredLanguage?: string;
 }
+*/
 
 export class DemoMeetingApp
-    implements AudioVideoObserver, DeviceChangeObserver, ContentShareObserver, VideoDownlinkObserver {
+  implements AudioVideoObserver, DeviceChangeObserver, ContentShareObserver, VideoDownlinkObserver {
   static readonly DID: string = '+17035550122';
   static readonly BASE_URL: string = [
     location.protocol,
@@ -288,7 +291,7 @@ export class DemoMeetingApp
     'button-camera': 'off',
     'button-speaker': 'on',
     'button-content-share': 'off',
-    'button-live-transcription': 'off',
+    //'button-live-transcription': 'off',
     'button-video-stats': 'off',
     'button-promote-to-primary': 'off',
     'button-video-filter': 'off',
@@ -318,8 +321,8 @@ export class DemoMeetingApp
   supportsBackgroundBlur = false;
   supportsBackgroundReplacement = false;
 
-  enableLiveTranscription = false;
-  noWordSeparatorForTranscription = false;
+  //enableLiveTranscription = false;
+  //noWordSeparatorForTranscription = false;
 
   markdown = require('markdown-it')({ linkify: true });
   lastMessageSender: string | null = null;
@@ -344,7 +347,7 @@ export class DemoMeetingApp
   voiceFocusDisplayables: HTMLElement[] = [];
   analyserNode: RemovableAnalyserNode;
 
-  liveTranscriptionDisplayables: HTMLElement[] = [];
+  //liveTranscriptionDisplayables: HTMLElement[] = [];
 
   chosenVideoTransformDevice: DefaultVideoTransformDevice;
   chosenVideoFilter: VideoFilterName = 'None';
@@ -412,10 +415,14 @@ export class DemoMeetingApp
     this.initEventListeners();
     this.initParameters();
     this.setMediaRegion();
-    if (this.isRecorder() || this.isBroadcaster()) {
+    if (this.isRecorder() || this.isBroadcaster() || this.isCustomCaller()) {
       AsyncScheduler.nextTick(async () => {
         this.meeting = new URL(window.location.href).searchParams.get('m');
-        this.name = this.isRecorder() ? '«Meeting Recorder»' : '«Meeting Broadcaster»';
+        if(this.isCustomCaller()){
+          this.name = '«Moon Demo Application«'
+        } else{
+          this.name = this.isRecorder() ? '«Meeting Recorder»' : '«Meeting Broadcaster»';
+        }
         await this.authenticate();
         await this.openAudioOutputFromSelection();
         await this.join();
@@ -982,6 +989,7 @@ export class DemoMeetingApp
       });
     });
 
+    /*
     const buttonLiveTranscription = document.getElementById('button-live-transcription');
     buttonLiveTranscription.addEventListener('click', () => {
       this.transcriptContainerDiv.style.display = this.isButtonOn('button-live-transcription') ? 'none' : 'block';
@@ -1016,10 +1024,11 @@ export class DemoMeetingApp
         }
       });
     });
+    */
 
     const languageIdentificationCb = document.getElementById('identify-language-checkbox') as HTMLInputElement;
     languageIdentificationCb.addEventListener('click', () => {
-      (document.getElementById('button-start-transcription') as HTMLInputElement).disabled = languageIdentificationCb.checked;
+      //(document.getElementById('button-start-transcription') as HTMLInputElement).disabled = languageIdentificationCb.checked;
       (document.getElementById('language-options').classList.toggle('hidden', !languageIdentificationCb.checked));
       (document.getElementById('preferred-language').classList.toggle('hidden', !languageIdentificationCb.checked));
       (document.getElementById('transcribe-language') as HTMLInputElement).disabled = languageIdentificationCb.checked;
@@ -1030,8 +1039,8 @@ export class DemoMeetingApp
       (document.getElementById('language-model-input-text') as HTMLInputElement).disabled = languageIdentificationCb.checked;
     });
 
-    const languageOptionsDropDown = document.getElementById('language-options') as HTMLInputElement;
-    languageOptionsDropDown.addEventListener('change', (event => languageOptionsDropDownClickHandler(event)));
+    //const languageOptionsDropDown = document.getElementById('language-options') as HTMLInputElement;
+    //languageOptionsDropDown.addEventListener('change', (event => languageOptionsDropDownClickHandler(event)));
 
     const contentIdentificationCb = document.getElementById('content-identification-checkbox') as HTMLInputElement;
     contentIdentificationCb.addEventListener('click', () => {
@@ -1055,6 +1064,7 @@ export class DemoMeetingApp
       (document.getElementById('language-model').classList.toggle('hidden', !languageModelCb.checked));
     });
 
+    /*
     const buttonStartTranscription = document.getElementById('button-start-transcription');
     buttonStartTranscription.addEventListener('click', async () => {
       let engine = '';
@@ -1124,11 +1134,14 @@ export class DemoMeetingApp
       }
       await startLiveTranscription(engine, languageCode, region, transcriptionStreamParams);
     });
-
+    */
+  
+    /*
     function isChecked(id: string): boolean {
       return (document.getElementById(id) as HTMLInputElement).checked;
-    }
+    }*/
 
+    /*
     // fetches checked values of the list from given selector id
     function getSelectedValues(id: string): string {
       let selectors = id + ' ' + 'option:checked';
@@ -1138,14 +1151,15 @@ export class DemoMeetingApp
         values = Array.from(selectedValues).filter(node => (node as HTMLInputElement).value !== '').map(el => (el as HTMLInputElement).value).join(',');
       }
       return values;
-    }
+    }*/
 
+    /*
     function createErrorSpan(message: string): void {
       let languageOptionsErrorSpan = document.createElement('span');
       languageOptionsErrorSpan.innerText = message;
       languageOptionsErrorSpan.classList.add('error-message-color');
       document.getElementById('language-options-error-message').appendChild(languageOptionsErrorSpan);
-      (document.getElementById('button-start-transcription') as HTMLInputElement).disabled = true;
+      //(document.getElementById('button-start-transcription') as HTMLInputElement).disabled = true;
     }
 
     // callback to restrict users from selecting multiple language variant (locale) per language code
@@ -1183,9 +1197,11 @@ export class DemoMeetingApp
         createErrorSpan('Please select at least 2 language options');
         return false;
       } else if (languageOptionsSelected.length >= 2) {
-        (document.getElementById('button-start-transcription') as HTMLInputElement).disabled = false;
+      //  (document.getElementById('button-start-transcription') as HTMLInputElement).disabled = false;
       }
     }
+    */
+    /*
     const startLiveTranscription = async (engine: string, languageCode: string, region: string, transcriptionStreamParams: TranscriptionStreamParams) => {
       const transcriptionAdditionalParams = JSON.stringify(transcriptionStreamParams);
       const response = await fetch(`${DemoMeetingApp.BASE_URL}start_transcription?title=${encodeURIComponent(this.meeting)}&engine=${encodeURIComponent(engine)}&language=${encodeURIComponent(languageCode)}&region=${encodeURIComponent(region)}&transcriptionStreamParams=${encodeURIComponent(transcriptionAdditionalParams)}`, {
@@ -1196,7 +1212,7 @@ export class DemoMeetingApp
         throw new Error(`Server error: ${json.error}`);
       }
       document.getElementById('live-transcription-modal').style.display = 'none';
-    };
+    };*/
 
     const buttonVideoStats = document.getElementById('button-video-stats');
     buttonVideoStats.addEventListener('click', () => {
@@ -1755,7 +1771,7 @@ export class DemoMeetingApp
     this.setupCanUnmuteHandler();
     this.setupSubscribeToAttendeeIdPresenceHandler();
     this.setupDataMessage();
-    this.setupLiveTranscription();
+    //this.setupLiveTranscription();
     this.audioVideo.addObserver(this);
     this.meetingSession.eventController.addObserver(this);
     this.audioVideo.addContentShareObserver(this);
@@ -1981,16 +1997,17 @@ export class DemoMeetingApp
     );
   }
 
+  /*
   transcriptEventHandler = (transcriptEvent: TranscriptEvent): void => {
     if (!this.enableLiveTranscription) {
       // Toggle disabled 'Live Transcription' button to enabled when we receive any transcript event
-      this.enableLiveTranscription = true;
-      this.updateLiveTranscriptionDisplayState();
+      //this.enableLiveTranscription = true;
+      //this.updateLiveTranscriptionDisplayState();
 
       // Transcripts view and the button to show and hide it are initially hidden
       // Show them when when live transcription gets enabled, and do not hide afterwards
-      this.setButtonVisibility('button-live-transcription', true, 'on');
-      this.transcriptContainerDiv.style.display = 'block';
+      //this.setButtonVisibility('button-live-transcription', true, 'on');
+      //this.transcriptContainerDiv.style.display = 'block';
     }
 
     if (transcriptEvent instanceof TranscriptionStatus) {
@@ -2015,7 +2032,7 @@ export class DemoMeetingApp
         // 1. toggle enabled 'Live Transcription' button to disabled
         this.enableLiveTranscription = false;
         this.noWordSeparatorForTranscription = false;
-        this.updateLiveTranscriptionDisplayState();
+        //this.updateLiveTranscriptionDisplayState();
 
         // 2. force finalize all partial results
         this.partialTranscriptResultTimeMap.clear();
@@ -2167,6 +2184,7 @@ export class DemoMeetingApp
       });
     }
   };
+  */
 
   createSpaceSpan(): HTMLSpanElement {
     const spaceSpan = document.createElement('span') as HTMLSpanElement;
@@ -2175,6 +2193,7 @@ export class DemoMeetingApp
     return spaceSpan;
   };
 
+  /*
   appendNewSpeakerTranscriptDiv = (
       segment: TranscriptSegment,
       speakerToTranscriptSpanMap: Map<string, HTMLSpanElement>) => {
@@ -2204,6 +2223,7 @@ export class DemoMeetingApp
   setupLiveTranscription = () => {
     this.audioVideo.transcriptionController?.subscribeToTranscriptEvent(this.transcriptEventHandler);
   };
+  */
 
   // eslint-disable-next-line
   async sendJoinRequest(
@@ -2561,6 +2581,7 @@ export class DemoMeetingApp
       });
     }
 
+    /*
     // Don't allow replica meeting attendees to enable transcription even when promoted
     if (this.primaryExternalMeetingId === undefined || this.primaryExternalMeetingId.length === 0) {
       additionalToggles.push({
@@ -2571,6 +2592,7 @@ export class DemoMeetingApp
         action: () => this.toggleLiveTranscription(),
       });
     }
+    */
 
     this.populateDeviceList(
         'audio-input',
@@ -2646,6 +2668,8 @@ export class DemoMeetingApp
     await this.reselectAudioInputDevice();
   }
 
+  /*
+
   private updateLiveTranscriptionDisplayState() {
     this.log('Updating live transcription display state to:', this.enableLiveTranscription);
     for (const elem of this.liveTranscriptionDisplayables) {
@@ -2669,6 +2693,7 @@ export class DemoMeetingApp
       liveTranscriptionModal.style.display = "block";
     }
   }
+  */
 
   async populateVideoInputList(): Promise<void> {
     const genericName = 'Camera';
@@ -3156,6 +3181,10 @@ export class DemoMeetingApp
     return new URL(window.location.href).searchParams.get('record') === 'true';
   }
 
+  isCustomCaller(): boolean {
+    return new URL(window.location.href).searchParams.get('moondemo') === 'true';
+  }
+
   isBroadcaster(): boolean {
     return new URL(window.location.href).searchParams.get('broadcast') === 'true';
   }
@@ -3241,7 +3270,7 @@ export class DemoMeetingApp
       this.audioVideo.realtimeUnsubscribeToAttendeeIdPresence(this.attendeeIdPresenceHandler);
 
       // Stop listening to transcript events.
-      this.audioVideo.transcriptionController?.unsubscribeFromTranscriptEvent(this.transcriptEventHandler);
+      //this.audioVideo.transcriptionController?.unsubscribeFromTranscriptEvent(this.transcriptEventHandler);
 
       this.audioVideo.realtimeUnsubscribeToMuteAndUnmuteLocalAudio(this.muteAndUnmuteLocalAudioHandler);
       this.audioVideo.realtimeUnsubscribeToSetCanUnmuteLocalAudio(this.canUnmuteLocalAudioHandler);
@@ -3363,16 +3392,16 @@ export class DemoMeetingApp
 
     const chosenLogLevel = (document.getElementById('logLevelSelect') as HTMLSelectElement).value;
     switch (chosenLogLevel) {
-      case 'info':
+      case 'INFO':
         this.logLevel = LogLevel.INFO;
         break;
-      case 'debug':
+      case 'DEBUG':
         this.logLevel = LogLevel.DEBUG;
         break;
-      case 'warn':
+      case 'WARN':
         this.logLevel = LogLevel.WARN;
         break;
-      case 'error':
+      case 'ERROR':
         this.logLevel = LogLevel.ERROR;
         break;
       default:
@@ -3552,9 +3581,11 @@ window.addEventListener('load', () => {
   new DemoMeetingApp();
 });
 
+/*
 window.addEventListener('click', event => {
   const liveTranscriptionModal = document.getElementById('live-transcription-modal');
   if (event.target === liveTranscriptionModal) {
     liveTranscriptionModal.style.display = 'none';
   }
 });
+*/
