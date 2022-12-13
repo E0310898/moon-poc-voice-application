@@ -398,7 +398,7 @@ body {
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
-  background-color: #2b2828;
+  background-color: #000000;
 }
 
 svg {
@@ -565,7 +565,7 @@ a.markdown:active {
 
 .message-bubble-self {
   border-radius: 5px;
-  background-color: #2b2828;//rgb(238, 248, 248);
+  background-color: #000000;//rgb(238, 248, 248);
   border-width: 1px;
   border-style: solid;
   border-color: rgb(134, 209, 215);
@@ -578,7 +578,7 @@ a.markdown:active {
 
 .message-bubble-other {
   border-radius: 5px;
-  background-color: #2b2828; //rgb(241, 241, 241);
+  background-color: #000000; //rgb(241, 241, 241);
   border-style: none;
   padding: 0.3rem;
   margin-left: 1rem;
@@ -974,7 +974,7 @@ a.markdown:active {
 .transcript-container {
   max-height: 210px;
   border-radius: 10px;
-  background-color: #2b2828;;
+  background-color: #000000;
   overflow-y: scroll;
   margin-top: 10px;
   padding: 0.2rem 1rem;

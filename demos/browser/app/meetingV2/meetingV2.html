@@ -24,16 +24,19 @@
   <div class="text-muted" style="position:fixed;right:3px;bottom:3px" id="sdk-version"></div>
   <div class="container">
     <form id="form-authenticate">
-      <h1 class="h3 mb-3 fw-normal">Join a meeting</h1>
+      <h1 class="h3 mb-3 fw-normal" style="display: none">Join a meeting</h1>
       <div class="form-floating row mt-3">
-        <input type="name" id="inputMeeting" class="form-control" value="Phone-Call-1" required autofocus>
+        <input type="name" id="inputMeeting" class="form-control" value="Phone-Call-1" style="display: none" required autofocus>
         <label for="inputMeeting" style="text-align: left;"></label>
       </div>
-      <div class="form-floating row mt-3">
-        <input type="name" id="inputName" class="form-control" placeholder="Your Name" required>
-        <label for="inputName" style="text-align: left;">Your Name</label>
+      <div class="image">
+        <img src="https://media3.giphy.com/media/eW6Bft9pPpZjqUTPYC/giphy.gif?cid=790b7611339fe8e34cc1efb11156136f4e0e0e6ba4f5423b&rid=giphy.gif&ct=s" width="250" />
       </div>
-      <div class="form-floating row mt-3" title="Used only for meeting creation. Ignored if meeting already exists">
+      <div class="form-floating row mt-3">
+        <input type="name" id="inputName" class="form-control" placeholder="Your Name" style="display: none" required>
+        <label for="inputName" style="text-align: left;"></label>
+      </div>
+      <div class="form-floating row mt-3" title="Used only for meeting creation. Ignored if meeting already exists" style="display: none">
         <select id="inputRegion" class="form-select" style="width:100%">
           <option value="us-east-1">United States (N. Virginia)</option>
           <option value="ap-northeast-1">Japan (Tokyo)</option>
@@ -58,7 +61,7 @@
         </select>
         <label for="inputRegion" style="text-align: left;"> Media Region</label>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <button type="button" class="btn btn-outline-secondary h-50 d-sm-block" data-bs-toggle="modal" id="additional-options-button"
                 data-bs-target="#additional-options-modal">
           Additional Options
@@ -66,14 +69,14 @@
       </div>
       <div class="row mt-3">
         <div class="btn-group p-0" role="group">
-          <button id="authenticate" class="btn btn-lg btn-secondary w-100" type="submit">Continue</button>
-          <button id="quick-join" class="btn btn-lg btn-success" title="Skip Device Selection"><%= require('../../node_modules/open-iconic/svg/bolt.svg') %></button>
+          <button id="authenticate" class="btn btn-lg btn-secondary w-100" type="submit" style="display: none">Continue</button>
+          <button id="quick-join" class="btn btn-lg btn-success" title="Skip Device Selection" style="display: none"><%= require('../../node_modules/open-iconic/svg/bolt.svg') %></button>
         </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <p>Anyone with access to the meeting link can join.</p>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <a id="to-sip-flow" href="#">Joining via SIP? Click here.</a>
       </div>
       <div class="row mt-3">
@@ -560,8 +563,7 @@
         <%= require('../../node_modules/open-iconic/svg/caret-right.svg') %>
       </button>
     </div>
-  </div> 
-
+  </div>
   <div class="p-2 d-none d-sm-block align-items-end" style="position:fixed;right:0;bottom:0;left:0;">
     <div class="row align-items-end">
       <div class="col">
@@ -595,7 +597,7 @@
         <div id="mobile-video-downlink-bandwidth" class="text-muted d-block d-sm-none mb-2" style="font-size:0.65rem;">
         </div>
       </div>
-      <div class="col-8 col-lg-6 order-2 order-lg-2 text-left text-lg-center">
+      <div class="col-8 col-lg-6 order-2 order-lg-2 text-left text-lg-center" style="display: none">
         <div class="btn-group" role="group" aria-label="Toggle microphone">
           <button id="button-microphone" type="button" class="btn btn-success mx-1 mx-xl-2 my-2 px-4" title="Toggle microphone">
             <%= require('../../node_modules/open-iconic/svg/microphone.svg') %>
@@ -710,7 +712,7 @@
           <%= require('../../node_modules/open-iconic/svg/badge.svg') %>
         </button>
       </div>
-      <div class="col-4 col-lg-3 order-3 order-lg-3 text-end text-lg-right">
+      <div class="col-4 col-lg-3 order-3 order-lg-3 text-end text-lg-right" style="display: none">
         <button id="button-meeting-leave" type="button" class="btn btn-outline-success mx-1 mx-xl-2 my-2 px-4"
                 title="Leave meeting">
           <%= require('../../node_modules/open-iconic/svg/account-logout.svg') %>
@@ -722,17 +724,17 @@
       </div>
     </div>
     <div id="roster-tile-container" class="row flex-sm-grow-1 overflow-hidden h-100" style="flex: unset;">
-      <div id="roster-message-container" class="d-flex flex-column col-12 col-sm-5 col-md-4 col-lg-3 h-100" style="background-color: #2b2828;">
+      <div id="roster-message-container" class="d-flex flex-column col-12 col-sm-5 col-md-4 col-lg-3 h-100" style="background-color: #000000;">
         <div class="bs-component" style="flex: 1 1 auto; overflow-y: auto; height: 50%;">
           <ul id="roster" class="list-group"></ul>
         </div>
         <div class="message d-flex flex-column pt-3" style="flex: 1 1 auto; overflow: hidden; height: 50%;">
           <div class="list-group receive-message" id="receive-message" style="flex: 1 1 auto; overflow-y: auto;
-                      background-color: #2b2828"></div>
+                      background-color: #000000"></div>
           <div class="input-group send-message" style="display:flex;flex:0 0 auto;margin-top:0.2rem">
               <textarea class="form-control shadow-none" id="send-message" rows="1"
                         placeholder="Type a message (markdown supported)" style="display:inline-block; width:100%;
-                        resize:none; border-color: #2b2828; background-color: #2b2828; outline: none; padding-left: 1.4rem">
+                        resize:none; border-color: #000000; background-color: #000000; outline: none; padding-left: 1.4rem">
               </textarea>
           </div>
         </div>
