@@ -285,7 +285,7 @@
 
 <!-- Device management and preview screen -->
 
-<div id="flow-devices" class="flow">
+<div id="flow-devices" class="flow" style="display: none">
   <div class="container">
     <form id="form-devices">
       <h1 class="h3 mb-3 font-weight-normal text-center">Select devices</h1>
@@ -294,13 +294,13 @@
           <video id="video-preview" class="" style="border-radius:8px"></video>
         </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <div class="col-12">
           <label for="audio-input block">Microphone</label>
           <select id="audio-input" class="form-select" style="width:100%"></select>
         </div>
 
-        <div class="text-center col-12 d-sm-block">
+        <div class="text-center col-12 d-sm-block" style="display: none">
           <label>Preview</label>
           <div class="w-100 progress" style="margin-top:0.75rem">
             <div id="audio-preview" class="progress-bar bg-success" role="progressbar" aria-valuenow="0"
@@ -308,20 +308,20 @@
           </div>
         </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <div id="voice-focus-setting" class="col-12 hidden">
           <input autocomplete="off" type="checkbox" id="add-voice-focus"></input>
           <label style="margin-left: 0.5em" for="voice-focus-setting block">Add Voice Focus</label>
         </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <div class="col-12">
           <label for="video-input block">Camera</label>
           <select id="video-input" class="form-select" style="width:100%"></select>
         </div>
 
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <div class="col-12">
           <label for="video-input-quality block">Resolution</label>
           <select id="video-input-quality" class="form-select" style="width:100%">
@@ -331,7 +331,7 @@
           </select>
         </div>
       </div>
-      <div class="row mt-3" id="video-input-filter-container">
+      <div class="row mt-3" id="video-input-filter-container" style="display: none">
         <div class="col-12">
           <label for="video-input-filter block">Video Filter</label>
           <select id="video-input-filter" class="form-select" style="width:100%">
@@ -339,30 +339,30 @@
           </select>
         </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <div class="col-12">
           <label for="audio-output block">Speaker</label>
           <select id="audio-output" class="form-select" style="width:100%"></select>
         </div>
-        <div class="col-12">
+        <div class="col-12" style="display: none">
           <button id="button-test-sound" class="btn btn-outline-secondary h-50 d-sm-block"
                   style="width:100%;margin-top:2rem">Test Speaker</button>
         </div>
       </div>
 
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <div class="col-lg">
           <button id="joinButton" class="btn btn-lg btn-primary" style="width:100%"
                   type="submit">Join</button>
         </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" style="display: none">
         <div class="col-lg">
           <p>Ready to join meeting <b><span id="info-meeting"></span></b> as <b><span id="info-name"></span></b>.</p>
         </div>
       </div>
     </form>
-    <div id="progress-join" class="w-100 progress progress-hidden">
+    <div id="progress-join" class="w-100 progress progress-hidden" style="display: none">
       <div class="w-100 progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100"
            aria-valuemin="0" aria-valuemax="100"></div>
     </div>
@@ -572,10 +572,10 @@
       </div>
       <div class="col">
         <div class="btn-group" role="group" style="width: 100%;">
-          <button type="button" id="video-paginate-left" class="btn btn-secondary" style="display: none;">
+          <button type="button" id="video-paginate-left" class="btn btn-secondary" style="display: none">
             <%= require('../../node_modules/open-iconic/svg/caret-left.svg') %>
           </button>
-          <button type="button" id="video-paginate-right" class="btn btn-secondary" style="display: none;">
+          <button type="button" id="video-paginate-right" class="btn btn-secondary" style="display: none">
             <%= require('../../node_modules/open-iconic/svg/caret-right.svg') %>
           </button>
         </div>
