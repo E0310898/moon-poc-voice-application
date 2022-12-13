@@ -887,7 +887,7 @@ a.markdown:active {
 
   .video-tile-video {
     object-fit: contain !important;
-    background-color: #313030;
+    background-color: #000000;
   }
 }
 
@@ -927,7 +927,7 @@ a.markdown:active {
 .stats-info {
   position: absolute;
   background-color: rgba($color: #000000, $alpha: 0.5);
-  color: white;
+  color: #000000;
   font-size: 10px;
   bottom: 3rem;
   left: 0;
@@ -986,7 +986,7 @@ a.markdown:active {
 }
 
 .transcript-speaker {
-  color: #555;
+  color: #000000;
   font-weight: 500;
 }
 
