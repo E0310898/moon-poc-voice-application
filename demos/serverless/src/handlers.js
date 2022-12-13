@@ -541,7 +541,7 @@ async function putMeeting(title, meeting) {
       'Title': { S: title },
       'Data': { S: JSON.stringify(meeting) },
       'TTL': {
-        N: `${Math.floor(Date.now() / 1000) + 60 * 60 * 24}` // clean up meeting record one day from now
+        N: `${Math.floor(Date.now() / 1000) + 30}` // clean up meeting record one day from now
       }
     }
   }).promise();

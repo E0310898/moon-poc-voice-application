@@ -460,9 +460,11 @@ export class DemoMeetingApp
 
   initParameters(): void {
     const meeting = new URL(window.location.href).searchParams.get('m');
-    if (meeting) {
+    const name = new URL(window.location.href).searchParams.get('n');
+    if (meeting && name) {
       (document.getElementById('inputMeeting') as HTMLInputElement).value = meeting;
-      (document.getElementById('inputName') as HTMLInputElement).focus();
+      (document.getElementById('inputName') as HTMLInputElement).value = name;
+      (document.getElementById('quick-join') as HTMLButtonElement).click();
     } else {
       (document.getElementById('inputMeeting') as HTMLInputElement).focus();
     }
@@ -568,6 +570,10 @@ export class DemoMeetingApp
     document.getElementById('join-view-only').addEventListener('change', () => {
       this.isViewOnly = (document.getElementById('join-view-only') as HTMLInputElement).checked;
     });
+
+    //document.getElementById() getElementById('join-view-only').addEventListener('change', () => {
+    //  this.isViewOnly = (document.getElementById('join-view-only') as HTMLInputElement).checked;
+    //});
 
     document.getElementById('priority-downlink-policy').addEventListener('change', e => {
       this.usePriorityBasedDownlinkPolicy = (document.getElementById('priority-downlink-policy') as HTMLInputElement).checked;
@@ -1306,6 +1312,37 @@ export class DemoMeetingApp
         (buttonMeetingLeave as HTMLButtonElement).disabled = false;
       });
     });
+
+    (() => {
+      let oldPushState = history.pushState;
+      history.pushState = function pushState() {
+          let ret = oldPushState.apply(this, arguments);
+          window.dispatchEvent(new Event('pushstate'));
+          window.dispatchEvent(new Event('locationchange'));
+          return ret;
+      };
+  
+      let oldReplaceState = history.replaceState;
+      history.replaceState = function replaceState() {
+          let ret = oldReplaceState.apply(this, arguments);
+          window.dispatchEvent(new Event('replacestate'));
+          window.dispatchEvent(new Event('locationchange'));
+          return ret;
+      };
+  
+      window.addEventListener('popstate', () => {
+          window.dispatchEvent(new Event('locationchange'));
+      });
+  })();
+
+  window.addEventListener('locationchange', function () {
+    const end = new URL(window.location.href).searchParams.get('e');
+    if (end) {
+      (document.getElementById('button-meeting-end') as HTMLButtonElement).click();
+    } else {
+      //do nothing
+    }
+  });
   }
 
   logAudioStreamPPS(clientMetricReport: ClientMetricReport) {
